@@ -1,0 +1,27 @@
+{
+  "name": "oops-state-master",
+  "version": "1.0.0",
+  "description": "A simple react state management library.",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
+  "scripts": {
+    "rollup": "rollup -c --bundleConfigAsCjs",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Abdul Zahir",
+  "license": "ISC",
+  "devDependencies": {
+    "@rollup/plugin-commonjs": "26.0.1",
+    "@rollup/plugin-node-resolve": "15.2.3",
+    "@rollup/plugin-terser": "0.4.4",
+    "@rollup/plugin-typescript": "11.1.6",
+    "@types/react": "18.3.3",
+    "react": "18.3.1",
+    "rollup": "4.19.1",
+    "rollup-plugin-dts": "6.1.1",
+    "rollup-plugin-peer-deps-external": "2.2.4",
+    "tslib": "2.6.3",
+    "typescript": "5.5.4"
+  }
+}
