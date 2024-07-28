@@ -4,9 +4,9 @@
   "description": "A simple react state management library.",
   "main": "dist/cjs/index.js",
   "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
+  "types": "dist/types.d.ts",
   "scripts": {
-    "rollup": "rollup -c --bundleConfigAsCjs",
+    "build": "rollup -c --bundleConfigAsCjs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Abdul Zahir",
