@@ -1,5 +1,5 @@
 {
-  "name": "oops-state-master",
+  "name": "oopsies-state-master",
   "version": "1.0.0",
   "description": "A simple react state management library.",
   "main": "./dist/index.js",
