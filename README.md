@@ -35,7 +35,30 @@ The store is not persistent by default. To make a store persistent, pass store n
 
 `export const store = createStore(initialValues, 'myOSMness');`
 
-## Accessing & Updating State
+### Usage
+
+- `useSubscribeState` : A react hook to get updated state from store.
+
+```
+const oopsies = useSubscribeState("oopsies", store);
+```
+
+A brief example is of the usage of useSubscribeState is given in examples section.
+
+Store states provide following methods:
+
+- `value` : Current value
+- `getValue` : Get current value
+- `setValue` : Set/update value in the store state
+- `registerListener` : Register your own callback function. `useSubscribeState` uses this method to register state change listener.
+
+```
+  const [stateValue, setStateValue] = useState(store[stateName].getValue());
+
+  store[stateName].registerListener((val: any) => setStateValue(val));
+```
+
+## Examples: Accessing & Updating State
 
 Let's start with updating a state. To update the state, store provides `setValue` method.
 
@@ -71,7 +94,7 @@ function OopsiesB(){
 We can access and update the states from non-react files/methods as well. Updating value is same as we did before by using the `setValue` method provided by store object. Similarly, to access the value, we can use `getValue` provided by store object.
 
 ```
-// apis.js
+// utils.js
 
 function getUserProfile(){
     let user = store["user"].getValue()

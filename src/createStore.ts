@@ -30,7 +30,7 @@ function storeValues(
 export default function createStore(
   store: Record<string, any>,
   storeName: string = ""
-): Record<string, any> {
+) {
   const storeObj =
     storeName && localStorage.getItem(storeName)
       ? JSON.parse(localStorage.getItem(storeName) || "{}")
@@ -39,7 +39,15 @@ export default function createStore(
     localStorage.setItem(storeName, JSON.stringify(storeObj));
   }
   const storeKeys = Object.keys(storeObj);
-  const storeSubscribe: Record<string, any> = {};
+  const storeSubscribe: {
+    [x: string]: {
+      value: any;
+      getValue: () => any;
+      setValue: (val: any) => void;
+      stateListener: (val: any) => void;
+      registerListener: (callback: (val: any) => void) => void;
+    };
+  } = {};
   storeKeys.forEach((key) => {
     storeSubscribe[key] = {
       value: storeObj[key],
