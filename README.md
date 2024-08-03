@@ -4,7 +4,7 @@
 
 There are other lightweight libraries as well but **OSM** has an advantage over them and that is ... **States can be accessed and updated from non-react files as well.**
 
-OSM is not fully tested so be careful, you might run into **Oopsies**.
+**Disclaimer**: OSM is not fully tested so be careful, you might run into **Oopsies**.
 
 ## Installing **OSM**:
 
@@ -37,20 +37,23 @@ The store is not persistent by default. To make a store persistent, pass store n
 
 ### Usage
 
-- `useSubscribeState` : A react hook to get updated state from store.
+- `useStateListener` : A react hook to get updated state from store.
 
 ```
-const oopsies = useSubscribeState("oopsies", store);
+const {stateValue, setLocalState} = useStateListener("oopsies", store);
 ```
 
-A brief example is of the usage of useSubscribeState is given in examples section.
+- `stateValue` : A react state which get updated when its store state is updated.
+- `setLocalState` : A react state dispatch method to update the store and react state
+
+A brief example is of the usage of `useStateListener` is given in examples section.
 
 Store states provide following methods:
 
 - `value` : Current value
 - `getValue` : Get current value
 - `setValue` : Set/update value in the store state
-- `registerListener` : Register your own callback function. `useSubscribeState` uses this method to register state change listener.
+- `registerListener` : Register your own callback function. `useStateListener` uses this method to register state change listener.
 
 ```
   const [stateValue, setStateValue] = useState(store[stateName].getValue());
@@ -72,21 +75,35 @@ function OopsiesA(){
 }
 ```
 
-Use the `useSubscribeState` hook to access the state in another component. This hook takes two arguments, first the state name and second store.
+Use the `useStateListener` hook to access the state in another component. This hook takes two arguments, first the state name and second store.
 
 ```
 import store from './store'
-import { useSubscribeState } from "oopsies-state-master";
+import { useStateListener } from "oopsies-state-master";
 
 function OopsiesB(){
-    const oopsies = useSubscribeState("oopsies", store);
-    const osmness = useSubscribeState("osmness", store);
+    const {stateValue: oopsies} = useStateListener("oopsies", store);
+    const {stateValue: osmness} = useStateListener("osmness", store);
 
     return(
         <>
         <h1>OSM-ness Count: {osmness}</h1>
         <h2>Oopsies Count: {oopsies}</h2>
         </>
+    )
+}
+```
+
+But sometimes `setValue` method does not behave as expected. It happens usually when multiple components using `useStateListener` hook with the same state name. To avoid these unexpected behaviors, `useStateListener` also provides `setLocalState` method to update the state in the store
+
+```
+import store from './store'
+import { useStateListener } from "oopsies-state-master";
+
+function OopsiesA(){
+   const {setLocalState} = useStateListener('oopsies', store)
+    return(
+        <button onClick={()=>setLocalState(new Date().getSeconds())}>Oopsies</button>
     )
 }
 ```
@@ -106,6 +123,12 @@ function getUserProfile(){
 }
 
 ```
+
+## Why use OSM?
+
+The idea behind developing this library was to have global states that can be accessed and updated from non-react functions with as minimum boilerplate as it could be. As this library is immature, it is advised to use it in projects where states are not complex, UI is not complex, is a small project, or projects where you want to have states globally available in react and non-react functions alike.
+
+**Disclaimer**: OSM is not fully tested so be careful, you might run into **Oopsies**. Open issue, if you run into oopsies (bug).
 
 ### Keywords
 
