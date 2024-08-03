@@ -51,23 +51,23 @@ export default function createStore(
   storeKeys.forEach((key) => {
     storeSubscribe[key] = {
       value: storeObj[key],
+      stateListener: function (val: any) {},
+
+      registerListener: function (callback: (val: any) => void) {
+        this.stateListener = callback;
+      },
       getValue: function () {
         return this.value;
       },
       setValue: function (val: any) {
         this.value = val;
         this.stateListener(val);
-        console.log(storeObj);
         if (storeName) {
           localStorage.setItem(
             storeName,
             JSON.stringify(storeValues(storeSubscribe, storeKeys))
           );
         }
-      },
-      stateListener: function (val: any) {},
-      registerListener: function (callback: (val: any) => void) {
-        this.stateListener = callback;
       },
     };
   });

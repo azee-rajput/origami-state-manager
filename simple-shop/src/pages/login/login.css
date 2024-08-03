@@ -1,0 +1,13 @@
+form {
+  display: "flex";
+  flex-direction: "column";
+  gap: "1rem";
+}
+
+input {
+  margin-top: "0.5rem";
+}
+
+button {
+  width: "fit-content";
+}
