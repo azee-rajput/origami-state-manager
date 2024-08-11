@@ -46,4 +46,4 @@ I researched trunk-based development and wrote a guideline for myself.
 
 When in doubt, keep your pull requests small. For the best chance of being accepted, avoid bundling more than one feature or bug fix per PR. It's often better to create two smaller PRs rather than one large one.
 
-Once a PR is raised, navigate to the issue it addresses and link the PR in the development section of the issue.
+Once a PR is raised, navigate to the issue it addresses and link the PR in the development section of the issue. OR link the issue in the development section of the PR
