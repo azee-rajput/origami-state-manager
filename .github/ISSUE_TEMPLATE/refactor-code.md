@@ -2,7 +2,7 @@
 name: Refactor Code
 about: Suggest refactoring the code
 title: ''
-labels: ''
+labels: enhancement
 assignees: ''
 
 ---
