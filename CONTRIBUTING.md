@@ -1,4 +1,4 @@
-# Contributing to Oopsies State Manager
+# Contributing to Origami State Manager
 
 If you're reading this, you're **OSM!** (awesome!) Thank you for being a part of the community and helping us make this project great. Your contributions and support are invaluable, and we appreciate everything you do to help us grow and improve. Keep being amazing!
 
