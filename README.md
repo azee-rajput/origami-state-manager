@@ -10,16 +10,7 @@
 
 Enough **AWESOMENESS** of **OSM** and let's install the **OSM-ness** in your app and make your work more **OSM**
 
-Follow these steps to install **OSM** in your project:
-
-1. Copy the `tarball` file (_Origami-State-Manager-xx.xx.xx.tgz_) into the root of your project.
-2. Add the following line to the `dependencies` section of your project's `package.json`:
-
-   ```json
-   "origami-state-manager": "./origami-state-manager-x.x.x.tgz"
-   ```
-
-3. Run `npm i` to install.
+Run `npm install origami-state-manager` to install.
 
 ## Creating a Store
 
