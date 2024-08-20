@@ -2,12 +2,12 @@ import { useEffect, useState } from "react";
 import { getProducts, handleAddToCart, handleAddToFavorite } from "../../utils";
 import "./home.css";
 import store from "../../utils/store";
-import { useStateListener } from "oopsies-state-master";
+import { useStateListener } from "origami-state-manager";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
-  const { stateValue: cartItems } = useStateListener("cart", store);
-  const { stateValue: favoriteItems } = useStateListener("favorite", store);
+  const cartItems = useStateListener("cart", store);
+  const favoriteItems = useStateListener("favorite", store);
 
   const getAllProducts = async () => {
     const productsData = await getProducts();
@@ -35,11 +35,11 @@ export default function Home() {
             </span>
             <span className='product-actions'>
               <button onClick={() => handleAddToCart(product.id)}>
-                {!cartItems.includes(product.id) ? "Add to" : "Remove from"}{" "}
+                {!cartItems?.includes(product.id) ? "Add to" : "Remove from"}{" "}
                 cart
               </button>
               <button onClick={() => handleAddToFavorite(product.id)}>
-                {!favoriteItems.includes(product.id)
+                {!favoriteItems?.includes(product.id)
                   ? "Add to "
                   : "Remove from "}
                 favorites

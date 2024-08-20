@@ -1,54 +1,54 @@
 import store from "./store";
 
 export const logout = () => {
-  const { isLoggedIn } = store["user"].getValue();
+  const { isLoggedIn } = store["user"].value;
 
   if (isLoggedIn) {
-    store["user"].setValue({ isLoggedIn: false });
+    store["user"].value = { isLoggedIn: false };
   }
 };
 
 export const login = () => {
-  const { isLoggedIn } = store["user"].getValue();
+  const { isLoggedIn } = store["user"].value;
 
   if (!isLoggedIn) {
-    store["user"].setValue({ isLoggedIn: true });
-    const app = store["app"].getValue();
-    if (app?.redirect) {
-      window.location.href = app?.redirect || "/profile";
-      store["app"].setValue({});
-    }
+    store["user"].value = { isLoggedIn: true };
+    // const app = store["app"].value;
+    // if (app?.redirect) {
+    //   window.location.href = app?.redirect || "/profile";
+    //   store["app"].value = {};
+    // }
   }
 };
 
 export const register = () => {};
 export const handleAddToFavorite = (productsId: string) => {
-  const { isLoggedIn } = store["user"].getValue();
+  const { isLoggedIn } = store["user"].value;
   if (!isLoggedIn) {
     const redirect =
       typeof window !== "undefined" ? window.location.href : "/profile";
-    store["app"].setValue({ redirect });
+    store["app"].value = { redirect };
 
     window.location.href = "/login";
   } else {
-    const favoriteItems = store["favorite"].getValue();
+    const favoriteItems = store["favorite"].value;
     if (favoriteItems.includes(productsId)) {
-      store["favorite"].setValue(
-        favoriteItems.filter((item: string) => item !== productsId)
+      store["favorite"].value = favoriteItems.filter(
+        (item: string) => item !== productsId
       );
     } else {
-      store["favorite"].setValue([...favoriteItems, productsId]);
+      store["favorite"].value = [...favoriteItems, productsId];
     }
   }
 };
 export const handleAddToCart = (productsId: string) => {
-  const cartItems = store["cart"].getValue();
+  const cartItems = store["cart"].value;
   if (cartItems.includes(productsId)) {
-    store["cart"].setValue(
-      cartItems.filter((item: string) => item !== productsId)
+    store["cart"].value = cartItems.filter(
+      (item: string) => item !== productsId
     );
   } else {
-    store["cart"].setValue([...cartItems, productsId]);
+    store["cart"].value = [...cartItems, productsId];
   }
 };
 

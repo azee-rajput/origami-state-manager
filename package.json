@@ -1,5 +1,5 @@
 {
-  "name": "oopsies-state-master",
+  "name": "origami-state-manager",
   "version": "0.1.0",
   "description": "A simple react state management library.",
   "main": "./dist/index.js",
