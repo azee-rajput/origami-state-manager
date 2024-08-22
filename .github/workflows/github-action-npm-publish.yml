@@ -13,7 +13,6 @@ jobs:
       - run: npm ci
       - run: npm install
       - run: npm run build
-      - run: npm publish
       - uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
