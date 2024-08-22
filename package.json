@@ -13,7 +13,28 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Abdul Zahir",
-  "license": "ISC",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/azee-rajput/origami-state-manager.git"
+  },
+  "bugs": {
+    "url": "https://github.com/azee-rajput/origami-state-manager/issues"
+  },
+  "homepage": "https://github.com/azee-rajput/origami-state-manager#readme",
+  "keywords": [
+    "react",
+    "state management",
+    "store",
+    "redux",
+    "recoil",
+    "zustand",
+    "mobx",
+    "state",
+    "global state",
+    "react state",
+    "react component"
+  ],
   "devDependencies": {
     "@rollup/plugin-commonjs": "26.0.1",
     "@rollup/plugin-node-resolve": "15.2.3",
