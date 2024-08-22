@@ -1,29 +1,30 @@
-# Origami-State-Manager
+<div style="justify-content:center; display:flex;"><img src="./img/osm-logo-small.png" alt="origami-state-manager-logo"/></div>
 
-**Origami-State-Manager** (OSM), pronounced _"awesome"_ is a simple, lightweight state management library that requires minimal boilerplate. OSM stands out because it allows states to be accessed and updated from both React and non-React files.
+# **Origami-State-Manager (OSM)**
 
-**Disclaimer**: **OSM** is not fully tested, so be cautious as you might encounter some **Oopsies**.
+**Origami-State-Manager (OSM)**, pronounced _"awesome,"_ is a lightweight state management library that requires minimal boilerplate. OSM stands out for its ability to seamlessly access and update global states from both React and non-React environments.
 
-**Origami**: Origami is the Japanese art of paper folding, known for transforming a simple sheet into intricate designs. Just like Origami, **OSM** is flexible, scalable, and adaptable, allowing you to effortlessly shape your global state. And, just like paper, it’s incredibly lightweight.
+### **Why the Name “Origami”?**
 
-## Installation
+Origami is the Japanese art of paper folding, known for transforming a simple sheet into intricate designs. Just like Origami, **OSM** is flexible, scalable, and adaptable, allowing you to effortlessly shape your global state. And, just like paper, it’s incredibly lightweight.
 
-Enough **AWESOMENESS** of **OSM** and let's install the **OSM-ness** in your app and make your work more **OSM**
+⚠️ **Disclaimer:** OSM is in its early stages and hasn’t been fully tested. Be cautious as you might encounter some **Oopsies** along the way.
 
-Follow these steps to install **OSM** in your project:
+---
 
-1. Copy the `tarball` file (_Origami-State-Manager-xx.xx.xx.tgz_) into the root of your project.
-2. Add the following line to the `dependencies` section of your project's `package.json`:
+## **Installation**
 
-   ```json
-   "origami-state-manager": "./origami-state-manager-x.x.x.tgz"
-   ```
+Ready to add some **OSM-ness** to your project? Install the library using npm:
 
-3. Run `npm i` to install.
+```bash
+npm install origami-state-manager
+```
 
-## Creating a Store
+---
 
-A store is an object where all OSM states are stored. To create a store, pass the initial states to the `createStore` method and export the newly created store.
+## **Creating a Store**
+
+A store is where all OSM states are stored. To create a store, pass the initial states to the `createStore` method and export the newly created store:
 
 ```javascript
 // store.ts
@@ -37,68 +38,91 @@ const initialValues = {
 export const store = createStore(initialValues);
 ```
 
-By default, the store is not persistent. To make a store persistent, pass the store name as a string to the second argument of the `createStore` method.
+### **Making the Store Persistent**
+
+By default, the store is not persistent. To make a store persistent, pass a store name as the second argument to the `createStore` method:
 
 ```javascript
 export const store = createStore(initialValues, "myOSMness");
 ```
 
-### Usage
+---
 
-- **`useStateListener`**: A React hook to get updated state from the store.
+## **Usage**
 
-  ```javascript
+### **React Hook: `useStateListener`**
+
+This hook allows you to access and listen to state changes within a React component:
+
+```javascript
+import { useStateListener } from "origami-state-manager";
+import { store } from "./store";
+
+function ExampleComponent() {
   const origami = useStateListener("origami", store);
-  ```
 
-  A brief example of using `useStateListener` is given in the examples section.
+  return <div>Origami Count: {origami}</div>;
+}
+```
 
-Store states provide the following methods:
+The hook takes two arguments: the state name and the store instance.
+
+### **Accessing State Properties**
+
+Each state provides the following methods:
 
 - **`value`**: Current value.
-- **`subscribe`**: Register your callback function. `useStateListener` uses this method to register a state change listener.
+- **`subscribe`**: Registers a callback function that triggers when the state changes. The `useStateListener` hook uses this method internally.
 
-  ```javascript
-  const [stateValue, setStateValue] = useState(store[stateName].value);
+Example:
+
+```javascript
+import { useEffect, useState } from "react";
+import { store } from "./store";
+
+function ExampleComponent() {
+  const [origamiValue, setOrigamiValue] = useState(store["origami"].value);
 
   useEffect(() => {
-    store[stateName].subscribe((state: any) => {
-      setStateValue(state);
+    const unsubscribe = store["origami"].subscribe((newState) => {
+      setOrigamiValue(newState);
     });
-  }, [stateName, store]);
-  ```
+    return unsubscribe;
+  }, []);
 
-## Examples: Accessing & Updating State
+  return <div>Origami Value: {origamiValue}</div>;
+}
+```
 
-### Updating a State
+---
 
-To update a state, simply assign new value to `value` property.
+## **Examples: Accessing & Updating State**
+
+### **Updating a State**
+
+To update a state, assign a new value to the `value` property:
 
 ```javascript
 import { store } from "./store";
 
-function OrigamiA() {
+function UpdateOrigami() {
   return (
-    <button
-      onClick={() => {
-        store["origami"].value = new Date().getSeconds();
-      }}
-    >
-      Origami
+    <button onClick={() => (store["origami"].value = new Date().getSeconds())}>
+      Update Origami
     </button>
   );
 }
 ```
 
-### Accessing State in a React Component
+### **Accessing State in a React Component**
 
-Use the `useStateListener` hook to access the state in another component. This hook takes two arguments: the state name and the store.
+Use the `useStateListener` hook to access state values in another component:
 
 ```javascript
 import { store } from "./store";
 import { useStateListener } from "origami-state-manager";
 
-function OrigamiB() {
+function DisplayCounts() {
   const origami = useStateListener("origami", store);
   const osmness = useStateListener("osmness", store);
 
@@ -111,16 +135,16 @@ function OrigamiB() {
 }
 ```
 
-### Accessing and Updating States from Non-React Files
+### **Accessing and Updating State from Non-React Files**
 
-You can access and update states from non-React files/methods as well. Use the `value` property to access and update the value.
+You can access and update state values from non-React files or functions as well:
 
 ```javascript
 // utils.js
 
 function getUserProfile() {
-  let user = store["user"].value;
-  if (!user) {
+  let profile = store["profile"].value;
+  if (!profile) {
     store["profile"].value = {};
   }
 
@@ -128,22 +152,24 @@ function getUserProfile() {
 }
 ```
 
-## Why Use OSM?
+---
 
-The idea behind **OSM** is to provide global states that can be accessed and updated from both React and non-React functions with minimal boilerplate. As this library is still in its early stages, it is advised to use it in projects where states are not complex, the UI is not complex, or in small projects where you want to have states globally available.
+## **Background**
 
-**Disclaimer**: **OSM** is not fully tested, so you might encounter some **Oopsies**. Please open an issue if you encounter any bugs.
+The development of the OSM library began as a research project aimed at creating a lightweight global state management solution with minimal boilerplate. The goal was to enable seamless state updates and access across both React and non-React functions while keeping the setup simple, easy, and lightweight.
 
-## Contributing to Origami State Manager
+Given that OSM is still in its early stages, it is best suited for smaller projects or applications with straightforward state management needs.
 
-Your contributions and support are invaluable, and we appreciate everything you do to help us grow and improve.
+---
 
-Here is a document with a few guidelines to help you along the way.
+## **Contributing to Origami-State-Manager**
 
-[Contributing to OSM](https://github.com/azee-rajput/origami-state-manager/blob/develop/CONTRIBUTING.md)
+Contributions are welcome! Check out the [contribution guidelines](https://github.com/azee-rajput/origami-state-manager/blob/HEAD/CONTRIBUTING.md) to learn more.
 
-### Keywords
+---
 
-[react](https://www.npmjs.com/search?q=keywords:react) [state management](https://www.npmjs.com/search?q=keywords:state-management) [store](https://www.npmjs.com/search?q=keywords:store) [redux ](https://www.npmjs.com/search?q=keywords:redux) [zustand](https://www.npmjs.com/search?q=keywords:zustand) [mobx](https://www.npmjs.com/search?q=keywords:mobx) [state](https://www.npmjs.com/search?q=keywords:state) [global-state](https://www.npmjs.com/search?q=keywords:global-state) [react-state](https://www.npmjs.com/search?q=keywords:react-state) [react-component](https://www.npmjs.com/search?q=keywords:react-component)
+## **Changelog**
+
+Stay up-to-date with the latest changes by visiting the [changelog](https://github.com/azee-rajput/origami-state-manager/blob/HEAD/CHANGELOG.md), which is regularly updated with new releases.
 
 ---
