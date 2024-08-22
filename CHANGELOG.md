@@ -1,4 +1,4 @@
-# 1.0.0
+# 1.0.2
 
 ---
 
@@ -6,6 +6,4 @@ _Aug 22, 2024_
 
 ## origami-state-manager
 
-- Develop store function
-- Use signal to subscribe to store
-- Develop `useStateListener` hook
+- move github workflow from github/issue_template to github/workflows
