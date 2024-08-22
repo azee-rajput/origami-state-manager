@@ -1,16 +1,101 @@
 /**
+ * Creates a signal that can be used to store and notify subscribers of changes.
+ *
+ * @param {any} initialValue - The initial value of the signal.
+ * @param {object} persistent - An optional object containing settings for persisting the signal's value.
+ * @param {string} persistent.storeName - The name of the store where the signal's value will be persisted.
+ * @param {string[]} persistent.storeKeys - An array of keys that will be used to store the signal's value.
+ * @param {object} persistent.storeSubscribe - An object containing subscription settings for the store.
+ * @return {object} An object with get and set methods for the signal's value, as well as a subscribe method for adding subscribers.
+ */
+function createSignal(
+  initialValue: any,
+  persistent:
+    | undefined
+    | {
+        storeName: string;
+        storeKeys: string[];
+        storeSubscribe: {
+          [x: string]: {
+            value: any;
+            subscribe: (subscriber: any) => void;
+          };
+        };
+      } = undefined
+) {
+  const storeName = persistent?.storeName;
+  const storeSubscribe = persistent?.storeSubscribe;
+  const storeKeys = persistent?.storeKeys;
+  let _value = initialValue;
+  let subscribers: any[] = [];
+
+  /**
+   * Notifies all subscribers of a change in the signal's value.
+   *
+   * @return {void} Nothing is returned.
+   */
+  function notify() {
+    for (let subscriber of subscribers) {
+      subscriber(_value);
+    }
+  }
+
+  return {
+    /**
+     * Gets the current value of the signal.
+     *
+     * @return {any} The current value of the signal.
+     */
+    get value() {
+      return _value;
+    },
+    /**
+     * Sets the value of the signal and notifies all subscribers.
+     * If persistence settings are provided, the new value is also stored in local storage.
+     *
+     * @param {any} v - The new value of the signal.
+     * @return {void} Nothing is returned.
+     */
+    set value(v) {
+      _value = v;
+      notify();
+      if (storeName && storeKeys && storeSubscribe) {
+        localStorage.setItem(
+          storeName,
+          JSON.stringify(storeValues(storeSubscribe, storeKeys))
+        );
+      }
+    },
+    /**
+     * Subscribes to the signal's value changes.
+     *
+     * @param {function} subscriber - A callback function to be notified of value changes.
+     * @return {void} Nothing is returned.
+     */
+    subscribe: (subscriber: any) => {
+      subscribers.push(subscriber);
+    },
+  };
+}
+
+/**
  * Generates a new object with the values of the specified keys from the subscribed store.
  *
- * @param {Record<string, any>} subscribedStore - The subscribed store object.
+ * @param {Record<string, { value: any, subscribe: (subscriber: any) => void }>} subscribedStore - The subscribed store object.
  * @param {Array<string>} keys - The keys to extract from the subscribed store.
  * @return {Record<string, any>} The new object with the extracted values.
  */
 function storeValues(
-  subscribedStore: Record<string, any>,
+  subscribedStore: {
+    [x: string]: {
+      value: any;
+      subscribe: (subscriber: any) => void;
+    };
+  },
   keys: Array<string>
 ): Record<string, any> {
   const store = keys.reduce((acc: Record<string, any>, current: string) => {
-    acc[current] = subscribedStore[current].getValue();
+    acc[current] = subscribedStore[current].value;
     return acc;
   }, {});
 
@@ -18,14 +103,14 @@ function storeValues(
 }
 
 /**
- * Creates a store object with the given store object and store name. If a store name is provided,
- * the store object is retrieved from local storage if it exists, otherwise it is created. The store
- * object is then subscribed to changes and the store object is returned. If a store name is provided,
- * the store object is saved to local storage when it is updated.
+ * Creates a store with the given initial state and store name.
  *
- * @param {Record<string, any>} store - The store object to be created.
- * @param {string} [storeName=""] - The name of the store object.
- * @return {Record<string, any>} The subscribed store object.
+ * If a store name is provided, it will be used to store the state in local storage to persist the store.
+ * If the store name is not found in local storage, the initial state will be used.
+ *
+ * @param {Record<string, any>} store - The initial state of the store.
+ * @param {string} [storeName=""] - The name of the store.
+ * @return {{ [x: string]: { value: any, subscribe: (subscriber: any) => void } }} - The store object with subscribe functionality.
  */
 export default function createStore(
   store: Record<string, any>,
@@ -42,34 +127,15 @@ export default function createStore(
   const storeSubscribe: {
     [x: string]: {
       value: any;
-      getValue: () => any;
-      setValue: (val: any) => void;
-      stateListener: (val: any) => void;
-      registerListener: (callback: (val: any) => void) => void;
+      subscribe: (subscriber: any) => void;
     };
   } = {};
   storeKeys.forEach((key) => {
-    storeSubscribe[key] = {
-      value: storeObj[key],
-      stateListener: function (val: any) {},
-
-      registerListener: function (callback: (val: any) => void) {
-        this.stateListener = callback;
-      },
-      getValue: function () {
-        return this.value;
-      },
-      setValue: function (val: any) {
-        this.value = val;
-        this.stateListener(val);
-        if (storeName) {
-          localStorage.setItem(
-            storeName,
-            JSON.stringify(storeValues(storeSubscribe, storeKeys))
-          );
-        }
-      },
-    };
+    storeSubscribe[key] = createSignal(storeObj[key], {
+      storeName,
+      storeKeys,
+      storeSubscribe,
+    });
   });
 
   return storeSubscribe;

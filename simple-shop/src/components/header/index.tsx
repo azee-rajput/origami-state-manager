@@ -1,12 +1,8 @@
-// import { useSubscribeState } from "oopsies-state-master";
-import { useStateListener } from "oopsies-state-master";
+import { useStateListener } from "origami-state-manager";
 import store from "../../utils/store";
 import "./header.css";
 export default function Header() {
-  const { stateValue, setLocalState } = useStateListener("user", store);
-  const { setLocalState: setFavorites } = useStateListener("favorite", store);
-
-  const { isLoggedIn } = stateValue;
+  const { isLoggedIn } = useStateListener("user", store);
 
   return (
     <header>
@@ -31,8 +27,8 @@ export default function Header() {
       {!isLoggedIn ? null : (
         <button
           onClick={() => {
-            setLocalState({ isLoggedIn: false });
-            setFavorites([]);
+            store["user"].value = { isLoggedIn: false };
+            store["favorite"].value = [];
           }}
         >
           logout

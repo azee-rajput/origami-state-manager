@@ -1,4 +1,4 @@
-import { createStore } from "oopsies-state-master";
+import { createStore } from "origami-state-manager";
 
 const initialStore = {
   user: {
@@ -9,6 +9,6 @@ const initialStore = {
   favorite: [],
 };
 
-const store = createStore(initialStore, "simple-oopsies-store");
+const store = createStore(initialStore, "simple-origami-store");
 
 export default store;
