@@ -6,4 +6,4 @@ _Aug 22, 2024_
 
 ## origami-state-manager
 
-- move github workflow from github/issue_template to github/workflows
+- fix workflow run scripts
