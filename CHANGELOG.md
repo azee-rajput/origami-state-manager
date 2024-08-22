@@ -1,4 +1,4 @@
-# 1.0.4
+# 1.0.5
 
 ---
 
@@ -6,5 +6,4 @@ _Aug 22, 2024_
 
 ## origami-state-manager
 
-- fix workflow run scripts.
-- remove npm publish script
+- update osm library installed version in example simple-shop
