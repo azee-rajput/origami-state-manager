@@ -15,7 +15,15 @@
     "allowUmdGlobalAccess": true,
     "baseUrl": "."
   },
-  "include": ["**/*.ts", "**/*.tsx", "setupTests.js"],
+  "include": [
+    "**/*.ts",
+    "**/*.tsx",
+    "performance-test/src/otg/index.js",
+    "performance-test/src/otg/useStateListener.js",
+    "performance-test/src/otg/createStore.js",
+    "src/createStore.test.tsx",
+    "performance-test/src/stateValue.test.js"
+  ],
   "exclude": [
     "node_modules",
     "build/*",

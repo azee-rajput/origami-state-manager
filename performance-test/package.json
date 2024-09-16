@@ -1,0 +1,37 @@
+{
+  "name": "performance-test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.test.js",
+  "scripts": {
+    "test": "react-scripts test"
+  },
+  "jest": {
+    "transform": {
+      "^.+\\.(js|ts|tsx)$": "babel-jest"
+    },
+    "transformIgnorePatterns": []
+  },
+  "devDependencies": {
+    "@babel/preset-env": "7.20.2",
+    "@reduxjs/toolkit": "2.2.7",
+    "@testing-library/jest-dom": "5.17.0",
+    "@testing-library/react": "13.4.0",
+    "babel-jest": "29.4.3",
+    "jest": "27.5.1",
+    "lit": "2.6.1",
+    "mobx": "6.13.1",
+    "mobx-react-lite": "4.0.7",
+    "origami-state-manager": "1.0.5",
+    "react": "18.3.1",
+    "react-redux": "9.1.2",
+    "redux": "5.0.1",
+    "zustand": "4.5.5"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "react-scripts": "5.0.1"
+  }
+}
