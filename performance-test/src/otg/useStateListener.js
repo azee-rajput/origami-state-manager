@@ -1,20 +1,17 @@
 import { useEffect, useReducer } from "react";
 import stateValue from "./stateValue";
 
-export default function useStateListener(
-  stateName: string,
-  store: Record<string, any>
-) {
+export default function useStateListener(stateName, store) {
   const firstKey = stateName.split(".")[0];
 
-  const [state, dispatch] = useReducer(
-    (currentState: any, newValue: any) => newValue,
+  const [, dispatch] = useReducer(
+    (currentState, newValue) => newValue,
     store[firstKey]?.value
   );
 
   useEffect(() => {
     // Subscribe to top-level changes
-    store[firstKey].subscribe((state: any) => {
+    store[firstKey].subscribe((state) => {
       dispatch(state);
     });
   }, [firstKey, store]);

@@ -36,7 +36,11 @@ function OSMComplexStateView() {
   return (
     <button
       onClick={() => {
-        stateValue("level1.level2.level3.counter", osmComplexStateStore, 0);
+        stateValue(
+          "level1.level2.level3.counter",
+          osmComplexStateStore,
+          () => 0
+        );
       }}
       data-testid='osm-complex'
     >
@@ -78,33 +82,12 @@ describe("createStore", () => {
 
     measurePerformance("OSM State Update (1000 updates)", () => {
       act(() => {
-        for (let i = 0; i < 1; i++) {
-          // let level1 = { ...osmComplexStateStore["level1"].value };
-          // level1 = {
-          //   ...level1,
-          //   level2: {
-          //     ...level1.level2,
-          //     level3: {
-          //       ...level1.level2.level3,
-          //       counter: level1.level2.level3.counter + 1,
-          //     },
-          //   },
-          // };
-          const osmCounter = stateValue(
-            "level1.level2.level3.counter",
-            osmComplexStateStore
-          );
-
-          console.log("osmCounter before==========>", osmCounter);
-          console.log("osmCounter before==========>", osmCounter);
-
+        for (let i = 0; i < 1000; i++) {
           stateValue(
             "level1.level2.level3.counter",
             osmComplexStateStore,
-            osmCounter + 1
+            (state) => state + 1
           );
-
-          console.log("osmCounter before==========>", osmCounter);
         }
       });
     });
@@ -137,15 +120,10 @@ describe("createStore", () => {
     // Trigger state updates
     act(() => {
       for (let i = 0; i < 1000; i++) {
-        const osmCounter = stateValue(
-          "level1.level2.level3.counter",
-          osmComplexStateStore
-        );
-
         stateValue(
           "level1.level2.level3.counter",
           osmComplexStateStore,
-          osmCounter + 1
+          (state) => state + 1
         );
       }
     });

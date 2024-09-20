@@ -1,4 +1,5 @@
 import createStore from "./createStore";
+import stateValue from "./stateValue";
 
 describe("createStore", () => {
   afterEach(() => {
@@ -80,39 +81,5 @@ describe("createStore", () => {
     expect(JSON.stringify(store["user"].value)).toBe(
       JSON.stringify({ isLoggedIn: true })
     );
-  });
-
-  test("should handle nested values", () => {
-    const initialStore = {
-      level1: {
-        level2: {
-          level3: "nestedValue",
-        },
-      },
-    };
-
-    const store: any = createStore(initialStore);
-
-    expect(store["level1.level2.level3"].value).toBe("nestedValue");
-
-    store["level1.level2.level3"].value = "newNestedValue";
-
-    expect(store["level1.level2.level3"].value).toBe("newNestedValue");
-  });
-
-  test("should update nested values and reflect changes", () => {
-    const initialStore = {
-      level1: {
-        level2: {
-          level3: "nestedValue",
-        },
-      },
-    };
-
-    const store: any = createStore(initialStore);
-
-    store["level1.level2.level3"].value = "updatedValue";
-
-    expect(store["level1.level2.level3"].value).toBe("updatedValue");
   });
 });

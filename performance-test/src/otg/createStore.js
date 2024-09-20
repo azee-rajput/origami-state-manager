@@ -8,32 +8,13 @@
  * @param {object} persistent.storeSubscribe - An object containing subscription settings for the store.
  * @return {object} An object with get and set methods for the signal's value, as well as a subscribe method for adding subscribers.
  */
-function createSignal(
-  initialValue: any,
-  persistent:
-    | undefined
-    | {
-        storeName: string;
-        storeKeys: string[];
-        storeSubscribe: {
-          [x: string]: {
-            value: any;
-            subscribe: (subscriber: any) => void;
-          };
-        };
-      } = undefined
-) {
+function createSignal(initialValue, persistent) {
   const storeName = persistent?.storeName;
   const storeSubscribe = persistent?.storeSubscribe;
   const storeKeys = persistent?.storeKeys;
   let _value = initialValue;
-  let subscribers: any[] = [];
+  let subscribers = [];
 
-  /**
-   * Notifies all subscribers of a change in the signal's value.
-   *
-   * @return {void} Nothing is returned.
-   */
   function notify() {
     for (let subscriber of subscribers) {
       subscriber(_value);
@@ -41,21 +22,9 @@ function createSignal(
   }
 
   return {
-    /**
-     * Gets the current value of the signal.
-     *
-     * @return {any} The current value of the signal.
-     */
     get value() {
       return _value;
     },
-    /**
-     * Sets the value of the signal and notifies all subscribers.
-     * If persistence settings are provided, the new value is also stored in local storage.
-     *
-     * @param {any} v - The new value of the signal.
-     * @return {void} Nothing is returned.
-     */
     set value(v) {
       _value = v;
       notify();
@@ -66,13 +35,7 @@ function createSignal(
         );
       }
     },
-    /**
-     * Subscribes to the signal's value changes.
-     *
-     * @param {function} subscriber - A callback function to be notified of value changes.
-     * @return {void} Nothing is returned.
-     */
-    subscribe: (subscriber: any) => {
+    subscribe: (subscriber) => {
       subscribers.push(subscriber);
     },
   };
@@ -81,21 +44,13 @@ function createSignal(
 /**
  * Generates a new object with the values of the specified keys from the subscribed store.
  *
- * @param {Record<string, { value: any, subscribe: (subscriber: any) => void }>} subscribedStore - The subscribed store object.
+ * @param {object} subscribedStore - The subscribed store object.
  * @param {Array<string>} keys - The keys to extract from the subscribed store.
- * @return {Record<string, any>} The new object with the extracted values.
+ * @return {object} The new object with the extracted values.
  */
-function storeValues(
-  subscribedStore: {
-    [x: string]: {
-      value: any;
-      subscribe: (subscriber: any) => void;
-    };
-  },
-  keys: Array<string>
-): Record<string, any> {
-  const store = keys.reduce((acc: Record<string, any>, current: string) => {
-    acc[current] = subscribedStore[current].value;
+function storeValues(subscribedStore, keys) {
+  const store = keys.reduce((acc, current) => {
+    acc[current] = subscribedStore[current]?.value;
     return acc;
   }, {});
 
@@ -108,14 +63,11 @@ function storeValues(
  * If a store name is provided, it will be used to store the state in local storage to persist the store.
  * If the store name is not found in local storage, the initial state will be used.
  *
- * @param {Record<string, any>} store - The initial state of the store.
+ * @param {object} store - The initial state of the store.
  * @param {string} [storeName=""] - The name of the store.
- * @return {{ [x: string]: { value: any, subscribe: (subscriber: any) => void } }} - The store object with subscribe functionality.
+ * @return {object} - The store object with subscribe functionality.
  */
-export default function createStore(
-  store: Record<string, any>,
-  storeName: string = ""
-) {
+export default function createStore(store, storeName = "") {
   const storeObj =
     storeName && localStorage.getItem(storeName)
       ? JSON.parse(localStorage.getItem(storeName) || "{}")
@@ -124,12 +76,7 @@ export default function createStore(
     localStorage.setItem(storeName, JSON.stringify(storeObj));
   }
   const storeKeys = Object.keys(storeObj);
-  const storeSubscribe: {
-    [x: string]: {
-      value: any;
-      subscribe: (subscriber: any) => void;
-    };
-  } = {};
+  const storeSubscribe = {};
   storeKeys.forEach((key) => {
     storeSubscribe[key] = createSignal(storeObj[key], {
       storeName,

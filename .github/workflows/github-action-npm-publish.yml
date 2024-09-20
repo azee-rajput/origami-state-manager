@@ -16,3 +16,23 @@ jobs:
       - uses: JS-DevTools/npm-publish@v3
         with:
           token: ${{ secrets.NPM_TOKEN }}
+
+on:
+  pull_request:
+    branches: develop
+
+jobs:
+  build_and_test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "20"
+      - run: npm ci
+      - name: Installing packages
+      - run: npm install
+      - name: Building library
+      - run: npm run build
+      - name: Running tests
+      - run: npm test

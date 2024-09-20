@@ -1,8 +1,4 @@
-function setNestedValue(
-  keys: string[],
-  obj: Record<string, any>,
-  value: (state?: any) => any
-): Record<string, any> {
+function setNestedValue(keys, obj, value) {
   let current = obj;
 
   // Create a shallow copy of the object so we don't modify the original
@@ -27,7 +23,7 @@ function setNestedValue(
   return newObj; // Return the updated object
 }
 
-function getNestedValue(keys: string[], obj: Record<string, any>): any {
+function getNestedValue(keys, obj) {
   let current = obj;
 
   for (const key of keys) {
@@ -40,35 +36,41 @@ function getNestedValue(keys: string[], obj: Record<string, any>): any {
   return current;
 }
 
-export default function stateValue(
-  stateName: string,
-  store: {
-    [x: string]: {
-      value: any;
-      subscribe: (subscriber: any) => void;
-    };
-  },
-  value?: (state: any) => any
-) {
+/**
+ * Retrieves a nested value from a state object, and optionally updates it if a
+ * value is provided. This function is useful for retrieving nested values from
+ * a state object, and for updating nested values in a state object.
+ *
+ * If a `value` is provided, it will be used to update the nested value. The
+ * function will return the updated nested value.
+ *
+ * @param {string} stateName - The name of the state object.
+ * @param {object} store - The store containing the state object.
+ * @param {function} [value] - The value to update the nested value with.
+ * @return {any} The nested value, or the updated nested value if a `value` was provided.
+ */
+export default function stateValue(stateName, store, value) {
   const keys = stateName.split(".");
   const firstKey = keys[0];
   const remainingKeys = keys.slice(1);
 
-  let state = store[firstKey].value;
+  let state = store[firstKey]?.value;
+
+  if (state === undefined) {
+    throw new Error(`State ${stateName} not found in store.`);
+  }
 
   if (value !== undefined) {
     if (remainingKeys.length === 0) {
-      if (state !== value) {
-        store[firstKey].value = value(state); // Direct update if it's the first level
+      if (state !== value(state)) {
+        store[firstKey].value = value(state);
       }
     } else {
-      // Get updated state with the new nested value
       const updatedState = setNestedValue(remainingKeys, state, value);
-      store[firstKey].value = updatedState; // Set the new state
+      store[firstKey].value = updatedState;
     }
   }
 
-  // Return the nested value if no update is required
   return remainingKeys.length === 0
     ? state
     : getNestedValue(remainingKeys, state);

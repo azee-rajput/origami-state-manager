@@ -29,11 +29,6 @@ function createSignal(
   let _value = initialValue;
   let subscribers: any[] = [];
 
-  /**
-   * Notifies all subscribers of a change in the signal's value.
-   *
-   * @return {void} Nothing is returned.
-   */
   function notify() {
     for (let subscriber of subscribers) {
       subscriber(_value);
@@ -41,21 +36,9 @@ function createSignal(
   }
 
   return {
-    /**
-     * Gets the current value of the signal.
-     *
-     * @return {any} The current value of the signal.
-     */
     get value() {
       return _value;
     },
-    /**
-     * Sets the value of the signal and notifies all subscribers.
-     * If persistence settings are provided, the new value is also stored in local storage.
-     *
-     * @param {any} v - The new value of the signal.
-     * @return {void} Nothing is returned.
-     */
     set value(v) {
       _value = v;
       notify();
@@ -66,12 +49,6 @@ function createSignal(
         );
       }
     },
-    /**
-     * Subscribes to the signal's value changes.
-     *
-     * @param {function} subscriber - A callback function to be notified of value changes.
-     * @return {void} Nothing is returned.
-     */
     subscribe: (subscriber: any) => {
       subscribers.push(subscriber);
     },
@@ -95,7 +72,7 @@ function storeValues(
   keys: Array<string>
 ): Record<string, any> {
   const store = keys.reduce((acc: Record<string, any>, current: string) => {
-    acc[current] = subscribedStore[current].value;
+    acc[current] = subscribedStore[current]?.value;
     return acc;
   }, {});
 

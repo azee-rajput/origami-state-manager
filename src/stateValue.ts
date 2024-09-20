@@ -39,7 +39,6 @@ function getNestedValue(keys: string[], obj: Record<string, any>): any {
 
   return current;
 }
-
 /**
  * Retrieves a nested value from a state object, and optionally updates it if a
  * value is provided. This function is useful for retrieving nested values from
@@ -69,23 +68,21 @@ export default function stateValue(
 
   let state = store[firstKey]?.value;
 
-  if (!state) {
+  if (state === undefined) {
     throw new Error(`State ${stateName} not found in store.`);
   }
 
   if (value !== undefined) {
     if (remainingKeys.length === 0) {
-      if (state !== value) {
-        store[firstKey].value = value(state); // Direct update if it's the first level
+      if (state !== value(state)) {
+        store[firstKey].value = value(state);
       }
     } else {
-      // Get updated state with the new nested value
       const updatedState = setNestedValue(remainingKeys, state, value);
-      store[firstKey].value = updatedState; // Set the new state
+      store[firstKey].value = updatedState;
     }
   }
 
-  // Return the nested value if no update is required
   return remainingKeys.length === 0
     ? state
     : getNestedValue(remainingKeys, state);
