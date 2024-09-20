@@ -1,12 +1,12 @@
-name: Publish to NPM when merging into main
+name: Build and Test on Pull Request against Develop
 
 on:
-  push:
+  pull_request:
     branches:
-      - main
+      - develop
 
 jobs:
-  publish:
+  build_and_test:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout the code
@@ -20,10 +20,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
+      - name: Installing packages
+        run: npm install
+
       - name: Build the project
         run: npm run build
 
-      - name: Publish to npm
-        uses: JS-DevTools/npm-publish@v3
-        with:
-          token: ${{ secrets.NPM_TOKEN }}
+      - name: Run tests
+        run: npm test
