@@ -1,9 +1,9 @@
 import { useNavigate } from "react-router-dom";
 import store from "../../utils/store";
-import { useStateListener } from "origami-state-manager";
+import { stateValue, useStateListener } from "../../osm";
 
 export default function Auth({ children }: { children: JSX.Element }) {
-  const { isLoggedIn } = useStateListener("user", store);
+  const isLoggedIn = useStateListener("user.isLoggedIn", store);
   const app = useStateListener("app", store);
   const navigate = useNavigate();
 
@@ -14,7 +14,7 @@ export default function Auth({ children }: { children: JSX.Element }) {
   if (isLoggedIn !== false) {
     if (app?.redirect) {
       const redirect = app?.redirect;
-      store["app"].value = {};
+      stateValue("app", store, () => {});
       navigate(redirect);
       return null;
     }

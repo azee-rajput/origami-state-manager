@@ -1,18 +1,28 @@
-import { useStateListener } from "origami-state-manager";
+import { stateValue, useStateListener } from "../../osm";
 import store from "../../utils/store";
 
 export default function Profile() {
-  const { isLoggedIn } = useStateListener("user", store);
+  const isLoggedIn = useStateListener("user.isLoggedIn", store);
+  const app = useStateListener("app", store);
 
   return (
     <>
       <h1>User logged in: {`${isLoggedIn}`}</h1>
+      <h1>app: {`${app}`}</h1>
       {isLoggedIn ? (
-        <button onClick={() => (store["user"].value = { isLoggedIn: false })}>
+        <button
+          onClick={() =>
+            stateValue("user", store, () => ({ isLoggedIn: false }))
+          }
+        >
           logout
         </button>
       ) : (
-        <button onClick={() => (store["user"].value = { isLoggedIn: true })}>
+        <button
+          onClick={() =>
+            stateValue("user", store, () => ({ isLoggedIn: true }))
+          }
+        >
           Login
         </button>
       )}
