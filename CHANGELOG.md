@@ -1,9 +1,12 @@
-# 1.0.5
+# 1.1.5
 
 ---
 
-_Aug 22, 2024_
+_Sep 22, 2024_
 
 ## origami-state-manager
 
-- update osm library installed version in example simple-shop
+- added performance test.
+- added benchmark test.
+- added stateValue function for easy state access/update.
+- replaced useState with useReducer
