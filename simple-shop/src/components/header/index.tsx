@@ -1,8 +1,8 @@
-import { useStateListener } from "origami-state-manager";
+import { stateValue, useStateListener } from "../../osm";
 import store from "../../utils/store";
 import "./header.css";
 export default function Header() {
-  const { isLoggedIn } = useStateListener("user", store);
+  const isLoggedIn = useStateListener("user.isLoggedIn", store);
 
   return (
     <header>
@@ -27,8 +27,8 @@ export default function Header() {
       {!isLoggedIn ? null : (
         <button
           onClick={() => {
-            store["user"].value = { isLoggedIn: false };
-            store["favorite"].value = [];
+            stateValue("user.isLoggedIn", store, () => false);
+            stateValue("favorite", store, () => []);
           }}
         >
           logout

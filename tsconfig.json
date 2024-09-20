@@ -15,7 +15,7 @@
     "allowUmdGlobalAccess": true,
     "baseUrl": "."
   },
-  "include": ["**/*.ts", "**/*.tsx", "setupTests.js"],
+  "include": ["**/*.ts", "**/*.tsx"],
   "exclude": [
     "node_modules",
     "build/*",
