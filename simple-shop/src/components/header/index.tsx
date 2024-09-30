@@ -1,4 +1,4 @@
-import { stateValue, useStateListener } from "../../osm";
+import { stateValue, useStateListener } from "origami-state-manager";
 import store from "../../utils/store";
 import "./header.css";
 export default function Header() {

@@ -1,6 +1,6 @@
 import { useNavigate } from "react-router-dom";
 import store from "../../utils/store";
-import { stateValue, useStateListener } from "../../osm";
+import { stateValue, useStateListener } from "origami-state-manager";
 
 export default function Auth({ children }: { children: JSX.Element }) {
   const isLoggedIn = useStateListener("user.isLoggedIn", store);

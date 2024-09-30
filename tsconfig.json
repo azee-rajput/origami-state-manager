@@ -25,6 +25,8 @@
     "*.json",
     "__mocks__/*",
     "storybook-static/*",
-    "src/**/*.stories.tsx"
+    "src/**/*.stories.tsx",
+    "**/tests",
+    "**/*.test.*"
   ]
 }
