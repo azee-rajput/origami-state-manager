@@ -5,9 +5,14 @@ import { create } from "zustand";
 import { observer } from "mobx-react-lite";
 import { makeAutoObservable } from "mobx";
 import { Benchmark } from "react-component-benchmark";
-import osmCreateStore from "./otg/createStore";
-import useStateListener from "./otg/useStateListener";
-import stateValue from "./otg/stateValue";
+// import osmCreateStore from "./otg/createStore";
+// import useStateListener from "./otg/useStateListener";
+// import stateValue from "./otg/stateValue";
+import {
+  createStore as osmCreateStore,
+  useStateListener,
+  stateValue,
+} from "origami-state-manager";
 
 // Redux Setup
 const reduxSlice = createSlice({
