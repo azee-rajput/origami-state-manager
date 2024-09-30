@@ -1,12 +1,12 @@
-# 1.1.5
+# 1.1.1
 
 ---
 
-_Sep 22, 2024_
+_Sep 30, 2024_
 
 ## origami-state-manager
 
-- added performance test.
-- added benchmark test.
-- added stateValue function for easy state access/update.
-- replaced useState with useReducer
+- removed code documentations/comments to reduce build code
+- removed all files except `index` and `index.d.ts` from `dist`
+- removed unwanted `test` files from `dist`
+- added `esm` config

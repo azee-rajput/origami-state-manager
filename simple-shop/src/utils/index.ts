@@ -1,4 +1,4 @@
-import { stateValue } from "../osm";
+import { stateValue } from "origami-state-manager";
 import store from "./store";
 
 export const logout = () => {

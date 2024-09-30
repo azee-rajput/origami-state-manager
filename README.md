@@ -117,9 +117,9 @@ OSM was developed with the goal of creating a simple, lightweight global state m
 
 ## **Comparison with Other Libraries**
 
-As of September 22, 2024:
+As of September 30, 2024:
 
-OSM stands out due to its minimal boilerplate and a build size of under **6kB**. A performance comparison project is included in the repository to benchmark OSM against popular state management libraries.
+OSM stands out due to its minimal boilerplate and a build size. A performance comparison project is included in the repository to benchmark OSM against popular state management libraries.
 
 ### **Running Performance Tests**
 
