@@ -7,12 +7,15 @@
 Jump to:
 
 - [Motivation](#motivation) for the development of OSM.
+- [Comparison with other libraries](#comparison-with-other-libraries) for benchmark results.
 
 ---
 
 ## **Why the Name “Origami”?**
 
 Origami is the Japanese art of paper folding, where a simple sheet of paper transforms into complex designs. Similarly, **OSM** is flexible, scalable, and lightweight, enabling developers to easily shape and manage global state in their applications.
+
+⚠️ **Disclaimer:** OSM is in its early stages and may have some rough edges. Use cautiously, and feel free to contribute if you encounter issues!
 
 ---
 
@@ -109,6 +112,38 @@ You can also update the state based on the current value:
 ## **Motivation**
 
 OSM was developed with the goal of creating a simple, lightweight global state management solution with minimal setup. It allows for effortless state management across React and non-React functions, making it suitable for applications that need an uncomplicated and efficient state management system.
+
+---
+
+## **Comparison with Other Libraries**
+
+As of September 30, 2024:
+
+OSM stands out due to its minimal boilerplate and a build size. A performance comparison project is included in the repository to benchmark OSM against popular state management libraries.
+
+### **Running Performance Tests**
+
+Performance and benchmark tests are included in the `performance-test` folder. You can run them as follows:
+
+1. **Install dependencies:**
+
+   ```bash
+   cd performance-test
+   npm install
+   ```
+
+2. **Run Jest tests for state updates:**
+
+   ```bash
+   npm test
+   ```
+
+3. **Run benchmark tests:**
+   ```bash
+   npm start
+   ```
+
+The Jest tests will output complex and simple state update results, while the `react-component-benchmark` will run more detailed benchmarks.
 
 ---
 

@@ -1,10 +1,12 @@
-# 1.1.2
+# 1.1.1
 
 ---
 
-_Aug 30, 2025_
+_Sep 30, 2024_
 
 ## origami-state-manager
 
-- update _README_
-- remove unnecessary code and files
+- removed code documentations/comments to reduce build code
+- removed all files except `index` and `index.d.ts` from `dist`
+- removed unwanted `test` files from `dist`
+- added `esm` config

@@ -3,16 +3,12 @@ import store from "../../utils/store";
 
 export default function Profile() {
   const isLoggedIn = useStateListener("user.isLoggedIn", store);
-  const user = useStateListener("user", store);
-  const favorite = useStateListener("favorite", store);
-  const cart = useStateListener("cart", store);
+  const app = useStateListener("app", store);
 
   return (
     <>
       <h1>User logged in: {`${isLoggedIn}`}</h1>
-      <pre>user: {`${JSON.stringify(user || {})}`}</pre>
-      <pre>cart: {`${JSON.stringify(cart || {})}`}</pre>
-      <pre>favorite: {`${JSON.stringify(favorite || {})}`}</pre>
+      <h1>app: {`${app}`}</h1>
       {isLoggedIn ? (
         <button
           onClick={() =>

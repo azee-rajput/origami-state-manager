@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { getProducts, handleAddToCart, handleAddToFavorite } from "../../utils";
 import "./home.css";
 import store from "../../utils/store";
-import { useStateListener } from "origami-state-manager";
+import { useStateListener } from "../../osm";
 
 export default function Home() {
   const [products, setProducts] = useState([]);
