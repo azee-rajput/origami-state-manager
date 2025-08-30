@@ -1,4 +1,4 @@
-import { createStore } from "../osm";
+import { createStore } from "origami-state-manager";
 
 const initialStore = {
   user: {
